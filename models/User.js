@@ -60,6 +60,18 @@ userSchema.methods.comparePassword = function(plainPassword,cb){
   })  
 }
 
+userSchema.methods.generateToken = function(cb){
+
+    var user = this;
+
+    var token = jwt.sign(user._id.toHexString(),'secretToken');
+    user.token = token
+    user.save(function(){
+        if(err) return cb(err);
+        cb(null,user);
+    })
+}
+
 const User = mongoose.model('User',userSchema)
 
 //다른파일에서 사용가능해짐
