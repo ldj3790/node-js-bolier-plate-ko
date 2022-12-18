@@ -52,12 +52,13 @@ app.post('/login',(req,res) => {
       if(!isMatch)
         return res.json({loginSuccess : false, message : "비밀번호가 틀렸습니다."});
         user.generateToken((err,user)=>{
+          console.log("ss");
           if(err) return res.status(400).send(err);
           //토근을 저장한다.
           res.cookie("x_auth",user.token)
           .status(200)
           .json({
-            loginSuccess:true,userId:user,_id
+            loginSuccess:true,userId:user._id
           })
         })
     })
